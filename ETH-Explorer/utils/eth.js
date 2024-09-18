@@ -1,13 +1,35 @@
-import dotenv from 'dotenv';
-dotenv.config()
-
-
 async function getETHData (){
-    const resp = await fetch(`https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${process.env.APIKEY}`)
-    const data = resp.json()
+    const apiKey = process.env.REACT_APP_API_KEY;
 
-    console.log(data)
+    const ethPriceUrl = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${apiKey}`;
+    const latestBlockUrl = `https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=${apiKey}`;
+    const ethSupplyUrl = `https://api.etherscan.io/api?module=stats&action=ethsupply&apikey=${apiKey}`;
+
+    const responsePrice = await fetch(ethPriceUrl);
+    const responseBlock = await fetch(latestBlockUrl);
+    const responseSupply = await fetch(ethSupplyUrl);
+
+    const ethPriceData = await responsePrice.json()
+    const latestBlockData = await responseBlock.json()
+    const ethSupplyData = await responseSupply.json()
+
+
+    const ethPrice = ethPriceData.result.ethusd
+    const ethSupply = ethSupplyData.result
+    const marketCap =  ethPrice *(ethSupply/1e18)
+    const latestBlock = latestBlockData.result
+
+
+    return {ethPrice,latestBlock,marketCap}
 }
 
+export {getETHData}
+// const dataResp = await getETHData();
 
-getETHData()
+
+// const ethData = {
+//     ethPrice: dataResp.result.ethusd
+// }
+
+
+// console.log(ethData.ethPrice)

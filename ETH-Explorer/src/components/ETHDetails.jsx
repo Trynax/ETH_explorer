@@ -1,5 +1,20 @@
-import React from 'react'
+import {useEffect, useState} from 'react'
+import {getETHData} from '../../utils/eth.js'
 export default function Chart() {
+   const [ethData, setEthData] = useState({})
+
+   useEffect(()=>{
+      async function fetchData() {
+         try{
+            const ethData = await getETHData()
+         setEthData(ethData)
+         }catch(err){
+            console.log(err)
+         }
+      }
+
+      fetchData()
+   },[])
   return (
      <section className='flex gap-6'>
         <div className='flex-1 grid grid-cols-2 gap-3 '>
@@ -7,7 +22,7 @@ export default function Chart() {
                  <i className="fa-brands fa-ethereum text-3xl"></i>
                  <div className='flex flex-col'>
                     <span className='text-gray-400'>ETH price</span>
-                    <span className='text-xl font-bold'>$2450 <span className='text-red-500 text-sm'>(-20%)</span></span>
+                    <span className='text-xl font-bold'>${ethData.ethPrice}<span className='text-red-500 text-sm'>(-20%)</span></span>
                  </div>
                  </div>
                  <div className='bg-customGray py-6 rounded-sm gap-3 px-4 flex items-center '>
@@ -25,7 +40,7 @@ export default function Chart() {
                  </div>
                  <div className='flex flex-col'>
                     <span className='text-gray-400'>Market Cap</span>
-                    <span className='text-xl font-bold'>$300,000,000,000</span>
+                    <span className='text-xl font-bold'>${ethData.marketCap}</span>
                  </div>
                  </div>
                  <div className='bg-customGray py-6 rounded-sm gap-3 px-4 flex items-center '>
@@ -34,7 +49,7 @@ export default function Chart() {
                  </div>
                  <div className='flex flex-col'>
                     <span className='text-gray-400'>Latest Finalized Block</span>
-                    <span className='text-xl font-bold'>2627396</span>
+                    <span className='text-xl font-bold'>${ethData.latestBlock}</span>
                  </div>
                  </div>
         </div>

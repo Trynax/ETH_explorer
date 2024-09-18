@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import Chart from "./components/ETHDetails";
 
 function App() {
 
@@ -10,6 +11,9 @@ function App() {
              <Header /> 
              <section className="h-[40%]">
                 <Hero/>
+             </section>
+             <section>
+                <Chart />
              </section>
            </main>
           </>

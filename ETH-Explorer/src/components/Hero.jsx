@@ -8,9 +8,9 @@ export default function Hero() {
         <img className=" absolute top-[30%] right-44" src={onchain} alt="" /> 
        <div className="absolute  top-44 left-[50%] transform -translate-x-1/2 flex flex-col gap-3">
                 <h1 className="text-6xl text-center text-white">
-                    The Ethereum <br /> Blockchain Explorer
+                    The Ethereum <br/> Blockchain Explorer
                 </h1>
-                <div className="relative flex w-[700px] bg-white py-6 items-center rounded-lg">
+                <div className="relative flex w-[700px] bg-white py-4 items-center rounded-lg">
     <i className="fa-solid fa-magnifying-glass text-xl ml-3"></i>
     <input
         type="text"
@@ -20,8 +20,7 @@ export default function Hero() {
     <button className="bg-customColor py-2 px-6 text-white rounded-full mr-4">
         Search
     </button>
-</div>
-
+                </div>
        </div>
     </section>
   )

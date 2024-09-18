@@ -8,6 +8,8 @@ export default {
     extend: {
       colors: {
         customColor: '#704AFF', // Replace with your desired color
+        customGray: '#F7F8FA',
+        iconBg:'#704AFF26'
       },
     },
   },

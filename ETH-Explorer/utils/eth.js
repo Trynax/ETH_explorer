@@ -1,5 +1,5 @@
 async function getETHData (){
-    const apiKey = process.env.REACT_APP_API_KEY;
+    const apiKey = import.meta.env.VITE_APP_API_KEY;
 
     const ethPriceUrl = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${apiKey}`;
     const latestBlockUrl = `https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=${apiKey}`;
@@ -18,9 +18,10 @@ async function getETHData (){
     const ethSupply = ethSupplyData.result
     const marketCap =  ethPrice *(ethSupply/1e18)
     const latestBlock = latestBlockData.result
-
+    console.log(apiKey)
 
     return {ethPrice,latestBlock,marketCap}
+
 }
 
 export {getETHData}

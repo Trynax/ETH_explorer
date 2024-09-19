@@ -18,7 +18,7 @@ async function getETHData (){
     const ethSupply = ethSupplyData.result
     const marketCap =  ethPrice *(ethSupply/1e18)
     const latestBlock = latestBlockData.result
-    console.log(apiKey)
+
 
     return {ethPrice,latestBlock,marketCap}
 

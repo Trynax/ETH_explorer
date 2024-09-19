@@ -2,13 +2,21 @@ import { useEffect, useState } from 'react';
 import { getETHData } from '../../utils/eth.js';
 
 export default function Chart() {
-   const [ethData, setEthData] = useState({});
+   const [ethData, setEthData] = useState({
+      ethPrice: null,  // default to null to handle loading
+      marketCap: null,  // default to null
+      latestBlock: null, // default to null
+   });
 
    useEffect(() => {
       async function fetchData() {
          try {
             const data = await getETHData();
-            setEthData(data);
+            setEthData({
+               ethPrice: Number(data.ethPrice),  // Ensure it's a number
+               marketCap: data.marketCap,
+               latestBlock: data.latestBlock
+            });
          } catch (err) {
             console.log(err);
          }
@@ -16,8 +24,6 @@ export default function Chart() {
 
       fetchData();
    }, []);
-
-   const ethPrice = ethData.ethPrice
 
    return (
       <section className='flex gap-6'>
@@ -27,7 +33,9 @@ export default function Chart() {
                <div className='flex flex-col'>
                   <span className='text-gray-400'>ETH price</span>
                   <span className='text-xl font-bold'>
-                     {ethPrice? ethPrice.toFixed(2):"Loading"}
+                     {ethData.ethPrice !== null && !isNaN(ethData.ethPrice) 
+                        ? `$${ethData.ethPrice.toFixed(2)}` 
+                        : 'Loading...'}
                      <span className='text-red-500 text-sm'>(-20%)</span>
                   </span>
                </div>
@@ -50,7 +58,9 @@ export default function Chart() {
                <div className='flex flex-col'>
                   <span className='text-gray-400'>Market Cap</span>
                   <span className='text-xl font-bold'>
-                     {ethData.marketCap ? ethData.marketCap.toLocaleString(0) : 'Loading...'}
+                     {ethData.marketCap !== null 
+                        ? `$${Math.round(ethData.marketCap).toLocaleString()}` 
+                        : 'Loading...'}
                   </span>
                </div>
             </div>
@@ -62,7 +72,9 @@ export default function Chart() {
                <div className='flex flex-col'>
                   <span className='text-gray-400'>Latest Finalized Block</span>
                   <span className='text-xl font-bold'>
-                     {ethData.latestBlock ? parseInt(ethData.latestBlock) : 'Loading...'}
+                     {ethData.latestBlock !== null 
+                        ? `${parseInt(ethData.latestBlock)}` 
+                        : 'Loading...'}
                   </span>
                </div>
             </div>

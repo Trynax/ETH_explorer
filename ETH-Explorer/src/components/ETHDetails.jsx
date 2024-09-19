@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getETHData } from '../../utils/eth.js';
+import { getETHData } from '../../utils/ethDataFetch.js';
 
 export default function Chart() {
    const [ethData, setEthData] = useState({

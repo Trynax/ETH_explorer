@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Chart from "./components/ETHDetails";
+import Latest from "./components/Latest";
 
 function App() {
 
@@ -14,6 +15,9 @@ function App() {
              </section>
              <section>
                 <Chart />
+             </section>
+             <section>
+              <Latest/>
              </section>
            </main>
           </>

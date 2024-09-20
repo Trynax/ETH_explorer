@@ -1,30 +1,37 @@
 import { useEffect,useState} from "react"
 import { getETHData } from "../../utils/ethDataFetch"
+import { getLatestFourTransactions } from "../../utils/transactionReceipt"
+import {ethers} from 'ethers'
 
 export default function Latest() {
     const [ethData, setEthData] = useState({})
+    const [latestFourTxn, setLatestFourTxn]=useState([])
     useEffect(()=>{
         async function fetchData() {
             try{
                 const ethData = await getETHData()
+                const latestFourTransactions = await getLatestFourTransactions()
                 setEthData(ethData)
+                setLatestFourTxn(latestFourTransactions)
             }catch(err){
                 console.log(err)
             }
         }
+       
         fetchData() 
+
         return () => {
        
         }
     },[])
 
     const lastFourBlocks =[]
-    for(let i=ethData.latestBlock-4; i<=ethData.latestBlock; i++){
+    for(let i=ethData.latestBlock-3; i<=ethData.latestBlock; i++){
         lastFourBlocks.push(i)
     }
   return (
     <section className="flex gap-6">
-        <div className="flex-1">
+        <div className="flex-1 flex gap-3 flex-col">
             <h1 className="text-3xl font-bold">Latest Blocks</h1>
             <div className="flex flex-col gap-2">
                 {lastFourBlocks.map((block)=>{
@@ -42,9 +49,35 @@ export default function Latest() {
             </div>
         </div>
 
-        <div className="flex-[5]" >
+        <div className="flex-[5] flex flex-col gap-3" >
             <h1 className="text-3xl font-bold">Latest Transactions</h1>
+            <table className="min-w-full table-auto bg-white shadow-md rounded-md">
+               <thead className="bg-customGray">
+               <tr>
+               <th className="px-4 py-2 text-left text-gray-500">Block</th>
+               <th className="px-4 py-2 text-left text-gray-500">Txn hash</th>
+               <th className="px-4 py-2 text-left text-gray-500">Method</th>
+               <th className="px-4 py-2 text-left text-gray-500">From / To</th>
+               <th className="px-4 py-2 text-left text-gray-500">Amount / fee</th>
+               <th className="px-4 py-2 text-left text-gray-500">Status</th>
+               </tr>
+                </thead>
+                <tbody className="border-spacing-3">
+                    {latestFourTxn.map((txn,i)=>{
+                        return <tr key={i} className="border-b text-customColor" >
+                            <td className="px-4 py-2 flex flex-col">{txn.blockNumber}<span className="text-gray-400 text-[10px]">few secs ago</span></td>
+                            <td className="px-4 py-2">{txn.hash}</td>
+                            <td className="px-4 py-2">Transfer</td>
+                            <td className="px-4 py-2 flex flex-col items-center"><span>{txn.from}</span><i className="fa-solid fa-arrows-up-down"></i><span>{txn.to}</span></td>
+                            <td className="px-4 py-2">
+                                   
+                            </td>
 
+                            <td className="px-4 py-2">{txn.block}</td>
+                        </tr>
+                    })}
+                </tbody>
+            </table>
         </div>
     </section>   
   )

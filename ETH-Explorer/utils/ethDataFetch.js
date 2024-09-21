@@ -1,4 +1,4 @@
-async function getETHData (){
+async function getETHData() {
     const apiKey = import.meta.env.VITE_APP_API_KEY;
 
     const ethPriceUrl = `https://api.etherscan.io/api?module=stats&action=ethprice&apikey=${apiKey}`;
@@ -9,28 +9,17 @@ async function getETHData (){
     const responseBlock = await fetch(latestBlockUrl);
     const responseSupply = await fetch(ethSupplyUrl);
 
-    const ethPriceData = await responsePrice.json()
-    const latestBlockData = await responseBlock.json()
-    const ethSupplyData = await responseSupply.json()
+    const ethPriceData = await responsePrice.json();
+    const latestBlockData = await responseBlock.json();
+    const ethSupplyData = await responseSupply.json();
 
+    const ethPrice = ethPriceData.result.ethusd;
+    const ethSupply = ethSupplyData.result;
+    const marketCap = ethPrice * (ethSupply / 1e18);
+    const latestBlock = parseInt(latestBlockData.result, 16); // Convert hex to decimal
 
-    const ethPrice = ethPriceData.result.ethusd
-    const ethSupply = ethSupplyData.result
-    const marketCap =  ethPrice *(ethSupply/1e18)
-    const latestBlock = latestBlockData.result
-
-
-    return {ethPrice,latestBlock,marketCap}
-
+    return { ethPrice, latestBlock, marketCap };
 }
 
-export {getETHData}
-// const dataResp = await getETHData();
 
-
-// const ethData = {
-//     ethPrice: dataResp.result.ethusd
-// }
-
-
-// console.log(ethData.ethPrice)
+export { getETHData };

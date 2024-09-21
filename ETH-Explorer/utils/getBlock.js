@@ -26,4 +26,4 @@ async function getBlockFirstFourTxn(){
 }
 
 
-export {getBlockFirstFourTxn}
+export {getBlockFirstFourTxn, getLatestBlock}

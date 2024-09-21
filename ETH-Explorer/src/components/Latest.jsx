@@ -1,16 +1,20 @@
 import { useEffect,useState} from "react"
 import { getETHData } from "../../utils/ethDataFetch"
-import { getLatestFourTransactions } from "../../utils/transactionReceipt"
+import { getLatestFourTransactions} from "../../utils/transactionReceipt"
 import {ethers} from 'ethers'
+import { getLatestBlock } from "../../utils/getBlock"
 
 export default function Latest() {
     const [ethData, setEthData] = useState({})
     const [latestFourTxn, setLatestFourTxn]=useState([])
+    const [latestBlock, setLatestBlock] = useState()
     useEffect(()=>{
         async function fetchData() {
             try{
                 const ethData = await getETHData()
                 const latestFourTransactions = await getLatestFourTransactions()
+                const block = await getLatestBlock()
+                setLatestBlock(block)
                 setEthData(ethData)
                 setLatestFourTxn(latestFourTransactions)
             }catch(err){
@@ -26,7 +30,7 @@ export default function Latest() {
     },[])
 
     const lastFourBlocks =[]
-    for(let i=ethData.latestBlock-3; i<=ethData.latestBlock; i++){
+    for(let i=latestBlock-3; i<=latestBlock; i++){
         lastFourBlocks.push(i)
     }
   return (
@@ -34,8 +38,8 @@ export default function Latest() {
         <div className="flex-1 flex gap-3 flex-col">
             <h1 className="text-3xl font-bold">Latest Blocks</h1>
             <div className="flex flex-col gap-2">
-                {lastFourBlocks.map((block)=>{
-                    return <div className="flex p-3 bg-white border gap-3 rounded-md items-center">
+                {lastFourBlocks.map((block, index)=>{
+                    return <div key={index}  className="flex p-3 bg-white border gap-3 rounded-md items-center">
                                     <div className='p-2 bg-iconBg rounded-full'>
                             <i className="fa-solid fa-cube text-xl text-customColor"></i>
                                     </div>
@@ -64,6 +68,8 @@ export default function Latest() {
                 </thead>
                 <tbody className="border-spacing-3">
                     {latestFourTxn.map((txn,i)=>{
+
+                        console.log(ethers.utils.formatEther(tx.value))
                         return <tr key={i} className="border-b text-customColor" >
                             <td className="px-4 py-2 flex flex-col">{txn.blockNumber}<span className="text-gray-400 text-[10px]">few secs ago</span></td>
                             <td className="px-4 py-2">{txn.hash}</td>

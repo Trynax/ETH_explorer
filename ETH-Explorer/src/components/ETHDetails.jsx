@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getETHData } from '../../utils/ethDataFetch.js';
+import { getLatestBlock } from '../../utils/getBlock.js';
 
 export default function Chart() {
    const [ethData, setEthData] = useState({
@@ -7,6 +8,7 @@ export default function Chart() {
       marketCap: null,  // default to null
       latestBlock: null, // default to null
    });
+   const [latestBlock, setLatestBlock] = useState();
 
    useEffect(() => {
       async function fetchData() {
@@ -16,7 +18,9 @@ export default function Chart() {
                ethPrice: Number(data.ethPrice),  // Ensure it's a number
                marketCap: data.marketCap,
                latestBlock: data.latestBlock
-            });
+            })
+            const latestBlockNumber = await getLatestBlock();
+            setLatestBlock(latestBlockNumber);
          } catch (err) {
             console.log(err);
          }
@@ -72,8 +76,8 @@ export default function Chart() {
                <div className='flex flex-col'>
                   <span className='text-gray-400'>Latest Finalized Block</span>
                   <span className='text-xl font-bold'>
-                     {ethData.latestBlock !== null 
-                        ? `${parseInt(ethData.latestBlock)}` 
+                     {latestBlock !== null 
+                        ? `${latestBlock}` 
                         : 'Loading...'}
                   </span>
                </div>

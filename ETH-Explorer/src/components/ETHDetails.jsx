@@ -40,7 +40,6 @@ export default function Chart() {
                      {ethData.ethPrice !== null && !isNaN(ethData.ethPrice) 
                         ? `$${ethData.ethPrice.toFixed(2)}` 
                         : 'Loading...'}
-                     <span className='text-red-500 text-sm'>(-20%)</span>
                   </span>
                </div>
             </div>
@@ -76,7 +75,7 @@ export default function Chart() {
                <div className='flex flex-col'>
                   <span className='text-gray-400'>Latest Finalized Block</span>
                   <span className='text-xl font-bold'>
-                     {latestBlock !== null 
+                     {latestBlock
                         ? `${latestBlock}` 
                         : 'Loading...'}
                   </span>

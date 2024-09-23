@@ -1,5 +1,8 @@
 import Home from "./components/Home"
-import { useState } from "react"
+import { useState,createContext } from "react"
+import WalletDetails from "./components/WalletDetails"
+
+export const CurrentPage = createContext()
 
 function App() {
 
@@ -7,7 +10,11 @@ function App() {
 
   return (
           <>
-            <Home/>
+          <CurrentPage.Provider value={[isHome,setIsHome]}>
+              {isHome ? <Home/> : <WalletDetails/>}
+          </CurrentPage.Provider>
+          
+           
           </>
 
     

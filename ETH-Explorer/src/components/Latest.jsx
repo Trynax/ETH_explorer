@@ -35,7 +35,6 @@ export default function Latest() {
 
     return (
         <section className="flex gap-6">
-            {/* Latest Blocks */}
             <div className="flex-1 flex gap-3 flex-col hidden lg:flex">
                 <h1 className="text-3xl font-bold">Latest Blocks</h1>
                 <div className="flex flex-col gap-2">

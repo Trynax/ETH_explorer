@@ -1,6 +1,6 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 
-const apiKey =import.meta.env.VITE_ALCHEMY_API_KEY;
+const apiKey =process.env.VITE_ALCHEMY_API_KEY;
 
 
 const settings = {
@@ -29,11 +29,11 @@ function getInputType(input){
     if(data.type === 'Transaction hash'){
       const txn = await alchemy.core.getTransaction(data.value)
       return txn
-    }else if (data.type === 'wallet address'){
-      const account = await alchemy.core.getAccount(data.value)
+    }else if (data.type === 'Wallet address'){
+      const account = await alchemy.core.getBalance(data.value)
       return account
     } else if (data.type === 'Block number'){
-      const block = await alchemy.core.getBlock(data.value, true)
+      const block = await alchemy.core.getBlock(data.value,  true)
       return block
     }
     return "Invalid input type"
@@ -42,4 +42,4 @@ function getInputType(input){
   
   
   
-  getBlockChainInfo(getInputType(20802845))
+console.log(getBlockChainInfo(getInputType("0x9FB5083bAbE04B3F4FD935C9865a98BB568FCA67")))

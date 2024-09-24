@@ -1,4 +1,7 @@
 import { Alchemy, Network } from 'alchemy-sdk';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const apiKey =process.env.VITE_ALCHEMY_API_KEY;
 
@@ -23,6 +26,23 @@ function getInputType(input){
       return "Invalid input"
     }
   }
+
+  async function getWalletTransactions(wallet) {
+    try {
+      const transactions = await alchemy.core.getAssetTransfers({
+        fromAddress: wallet, 
+        category: ['external', 'internal', 'erc20', 'erc721', 'erc1155', 'specialnft'], 
+        maxCount: 3, 
+        withMetadata: true, 
+        order: 'desc',  
+      });
+  
+      return transactions.transfers; // Access the transfers array
+    } catch (e) {
+      console.error('Error fetching transactions:', e);
+      return "Error fetching transactions";
+    }
+  }
   
   async function getBlockChainInfo (data){
   
@@ -30,8 +50,12 @@ function getInputType(input){
       const txn = await alchemy.core.getTransaction(data.value)
       return txn
     }else if (data.type === 'Wallet address'){
-      const account = await alchemy.core.getBalance(data.value)
-      return account
+      const accountBalance = await alchemy.core.getBalance(data.value)
+      const transactions = await getWalletTransactions(data.value)
+      return {
+        accountBalance,
+        transactions
+      }
     } else if (data.type === 'Block number'){
       const block = await alchemy.core.getBlock(data.value,  true)
       return block
@@ -39,7 +63,13 @@ function getInputType(input){
     return "Invalid input type"
   
   }
-  
-  
-  
-console.log(getBlockChainInfo(getInputType("0x9FB5083bAbE04B3F4FD935C9865a98BB568FCA67")))
+
+async function call(){
+  console.log(await getBlockChainInfo(getInputType("0x4061a433e3c29c47f038199e780403d04ffd53d5e140bc74e360c5782a3eed91")))
+}
+
+
+
+
+
+call()

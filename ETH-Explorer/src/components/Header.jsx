@@ -15,7 +15,7 @@ export default function Header (){
                     <li>Blocks</li>
                 </ul>
             </div>
-            <div className={`w-[30%] relative bg-[#F7F8FA] items-center ${!isHome?'flex':'hidden'}`}>
+            <div className={`w-[30%] relative bg-[#F7F8FA] py-2 px-2 rounded-2xl items-center ${!isHome?'flex':'hidden'}`}>
                             <i className="fa-solid fa-magnifying-glass text-xl ml-3"></i>
                     <input
                         type="text"

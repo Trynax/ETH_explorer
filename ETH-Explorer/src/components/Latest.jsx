@@ -54,8 +54,6 @@ export default function Latest() {
                     })}
                 </div>
             </div>
-
-            {/* Latest Transactions */}
             <div className="flex-[5] flex flex-col gap-3">
                 <h1 className="text-3xl font-bold">Latest Transactions</h1>
                 <table className="min-w-full table-auto bg-white shadow-md rounded-md">
@@ -71,6 +69,7 @@ export default function Latest() {
                     </thead>
                     <tbody className="border-spacing-3">
                         {latestFourTxn.map((txn, i) => {
+                            console.log(txn.value)
                             return (
                                 <tr key={i} className="border-b text-customColor">
                                     <td className="px-4 py-2 flex flex-col ">

@@ -1,9 +1,8 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 import dotenv from 'dotenv';
+import { ethers } from 'ethers';
 
-dotenv.config();
-
-const apiKey =process.env.VITE_ALCHEMY_API_KEY;
+const apiKey =import.meta.env.VITE_ALCHEMY_API_KEY;
 
 
 const settings = {
@@ -44,16 +43,17 @@ function getInputType(input){
     }
   }
   
-  async function getBlockChainInfo (data){
-  
+  async function getBlockChainInfo (value){
+    const data = getInputType(value)
     if(data.type === 'Transaction hash'){
       const txn = await alchemy.core.getTransaction(data.value)
       return txn
     }else if (data.type === 'Wallet address'){
-      const accountBalance = await alchemy.core.getBalance(data.value)
+      const ethBalance = await alchemy.core.getBalance(data.value)
       const transactions = await getWalletTransactions(data.value)
+      const balance = ethers.formatEther(ethBalance._hex)
       return {
-        accountBalance,
+        balance,
         transactions
       }
     } else if (data.type === 'Block number'){
@@ -64,12 +64,4 @@ function getInputType(input){
   
   }
 
-async function call(){
-  console.log(await getBlockChainInfo(getInputType("0x4061a433e3c29c47f038199e780403d04ffd53d5e140bc74e360c5782a3eed91")))
-}
-
-
-
-
-
-call()
+  export {getBlockChainInfo}

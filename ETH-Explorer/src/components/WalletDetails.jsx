@@ -2,18 +2,29 @@ import Header from "./Header";
 import { getBlockChainInfo } from "../../utils/getChainData";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { getETHData } from "../../utils/ethDataFetch";
+import { getWalletTransactionsCount } from "../../utils/totalTransactions";
 
 export default function WalletDetails() {
   const [walletDetails, setWalletDetails] = useState(null);
+  const [ethPrice, setETHPrice] = useState(0);
+  const [transactionsCount, setTransactionsCount] = useState(0)
 
   useEffect(() => {
     async function fetchData() {
       try {
+        const data= await getETHData();
         const WalletData = await getBlockChainInfo(
           "0xA15585918e6ef74239246F4E1538ACDf70b4743E"
         );
+        const transactionsCount = await getWalletTransactionsCount(
+          "0xA15585918e6ef74239246F4E1538ACDf70b4743E"
+        );
+        console.log(transactionsCount)
         // Ensure WalletData.balance is defined before setting state
           setWalletDetails(WalletData)
+          setETHPrice(data.ethPrice)
+          setTransactionsCount(transactionsCount)
       } catch (error) {
         console.error("Error fetching wallet data:", error);
         setWalletDetails({
@@ -24,16 +35,10 @@ export default function WalletDetails() {
     }
     fetchData();
 
+    console.log(transactionsCount)
+
    
   }, []);
-
-  useEffect(()=>{
-    if(walletDetails){
-      console.log(walletDetails.balance)
-    }
-  },[walletDetails])
-
-
 
   return (
     <main className="px-6 pt-3 flex flex-col gap-3">
@@ -53,7 +58,7 @@ export default function WalletDetails() {
               Portfolio Value
             </h4>
             <p className="text-xl font-bold ml-6">
-              {}
+              ${(ethPrice * Number(walletDetails?.balance)).toFixed(4)}
             </p>
           </div>
           <div className="flex flex-col bg-white p-8 w-[30%] rounded-md">
@@ -61,7 +66,7 @@ export default function WalletDetails() {
               <i className="fa-brands fa-ethereum text-3xl"></i>ETH Balance
             </h4>
             <p className="text-xl font-bold ml-6">
-              {walletDetails?.balance}
+              {Number(walletDetails?.balance).toFixed(4)}
             </p>
           </div>
           <div className="flex flex-col bg-white p-8 w-[30%] rounded-md">
@@ -69,7 +74,7 @@ export default function WalletDetails() {
               <i className="fa-solid fa-arrow-right-arrow-left p-2 bg-iconBg rounded-full text-customColor"></i>
               Total Transactions
             </h4>
-            <p className="text-xl font-bold ml-8">400</p>
+            <p className="text-xl font-bold ml-8">{transactionsCount}</p>
           </div>
         </div>
 
@@ -104,7 +109,7 @@ export default function WalletDetails() {
                             return (
                                 <tr key={i} className="border-b text-customColor">
                                     <td className="px-4 py-2 flex flex-col ">
-                                        {txn.blockNumber}
+                                        {parseInt(txn.blockNum)}
                                         <span className="text-gray-400 text-[10px]">few secs ago</span>
                                     </td>
                                     <td className="px-4 py-2">{formatHash(txn.hash)}</td>
@@ -116,11 +121,11 @@ export default function WalletDetails() {
                                     </td>
                                     <td className="px-4 py-2">
                                         <span className="p-1 text-sm bg-iconBg rounded-md text-center">
-                                            {ethers.formatEther(txn)} ETH
+                                            {txn.value} {txn.asset}
                                         </span>
                                         <br />
                                         <span className="text-sm text-gray-400 text-center">
-                                            Fee: {} ETH
+                                            Fee: {formatGasFee(txn)} ETH
                                         </span>
                                     </td>
                                     <td className="px-4 py-2"><span className="bg-[#ECFDF3] text-[#027A48] items-center p-2 rounded-md "><i className="fa-solid fa-check mr-1"></i>Success</span></td>

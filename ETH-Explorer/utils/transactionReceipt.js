@@ -13,7 +13,7 @@ const settings = {
 
 const alchemy = new Alchemy(settings);
 
-async function getTransctionReceipt(hash) {
+async function getTransactionReceipt(hash) {
     const txnReceipt = await alchemy.core.getTransaction(hash)
     return txnReceipt;
 }
@@ -35,5 +35,5 @@ async function getLatestFourTransactions() {
 
 
 export {
-    getLatestFourTransactions
+    getLatestFourTransactions, getTransactionReceipt
 }

@@ -2,6 +2,7 @@ import Home from "./components/Home"
 import { useState,createContext } from "react"
 import Testing from "./Testing"
 import WalletDetails from "./components/WalletDetails"
+import TransactionDetails from "./components/TransactionsDetail"
 
 export const CurrentPage = createContext()
 
@@ -12,7 +13,7 @@ function App() {
   return (
           <>
           <CurrentPage.Provider value={[isHome,setIsHome]}>
-              {isHome ? <Home/> : <WalletDetails/>}
+              {isHome ? <Home/> : <TransactionDetails/>}
           </CurrentPage.Provider>
           {/* <Testing/> */}
            

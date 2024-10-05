@@ -29,8 +29,8 @@ function getInputType(input){
   async function getWalletTransactions(wallet) {
     try {
       const transactions = await alchemy.core.getAssetTransfers({
-        fromAddress: wallet, 
-        category: ['external', 'internal', 'erc20', 'erc721', 'erc1155', 'specialnft'], 
+        fromAddress:wallet,
+        category:['external', 'internal', 'erc20', 'erc721', 'erc1155', 'specialnft'], 
         maxCount: 3, 
         withMetadata: true, 
         order: 'desc',  
@@ -64,4 +64,12 @@ function getInputType(input){
   
   }
 
-  export {getBlockChainInfo}
+
+
+  async function getTransactionReceipt(hash) {
+    const data = await alchemy.core.getTransactionByHash(hash)
+
+    return data
+  }
+
+  export {getBlockChainInfo,getTransactionReceipt}

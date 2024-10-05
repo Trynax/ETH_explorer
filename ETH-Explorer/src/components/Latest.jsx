@@ -69,7 +69,6 @@ export default function Latest() {
                     </thead>
                     <tbody className="border-spacing-3">
                         {latestFourTxn.map((txn, i) => {
-                            console.log(txn.value)
                             return (
                                 <tr key={i} className="border-b text-customColor">
                                     <td className="px-4 py-2 flex flex-col ">

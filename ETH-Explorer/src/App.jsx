@@ -8,7 +8,7 @@ export const CurrentPage = createContext()
 
 function App() {
 
-  const [isHome,setIsHome] = useState(false)
+  const [isHome,setIsHome] = useState(true)
 
   return (
           <>

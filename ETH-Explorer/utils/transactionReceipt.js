@@ -26,7 +26,7 @@ async function getLatestFourTransactions() {
 
     for(let i=0; i<txns.length; i++){
         const txnHash = txns[i]
-        const txnReceipt = await getTransctionReceipt(txnHash)
+        const txnReceipt = await getTransactionReceipt(txnHash)
         lastFourTransactions.push(txnReceipt)
     }
 

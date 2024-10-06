@@ -13,10 +13,8 @@ function App() {
   return (
           <>
           <CurrentPage.Provider value={[isHome,setIsHome]}>
-              {isHome ? <Home/> : <TransactionDetails/>}
+              <Home/>
           </CurrentPage.Provider>
-          {/* <Testing/> */}
-           
           </>
 
     

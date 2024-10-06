@@ -14,7 +14,7 @@ export default function Hero() {
     <i className="fa-solid fa-magnifying-glass text-xl ml-3"></i>
     <input
         type="text"
-        placeholder="Search by Address / Txn Hash / Block / Domain Name"
+        placeholder="Search by Address / Txn Hash"
         className="w-full ml-4 focus:outline-none text-gray-600"
     />
     <button className="bg-customColor py-2 px-6 text-white rounded-full mr-4">

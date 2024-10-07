@@ -96,7 +96,6 @@ export default function WalletDetails({ walletAddress }) {
             </thead>
             <tbody>
               {walletDetails?.transactions?.map((txn, i) => {
-                console.log(txn);
                               return (
                   <tr key={i} className="border-b text-customColor">
                     <td className="px-4 py-2 flex flex-col ">

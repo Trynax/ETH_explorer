@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from "./components/Home"
-import TransactionDetails from "./components/TransactionDetails"
+import WalletAndReceipt from './components/WalletAndReceipt'
 import { createContext, useState } from 'react'
 
 // Create and export the CurrentPage context
@@ -14,7 +14,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/transaction/:hash" element={<TransactionDetails />} />
+          {/* Route that dynamically renders either WalletDetails or TransactionDetails based on input */}
+          <Route path="/details/:input" element={<WalletAndReceipt />} />
         </Routes>
       </Router>
     </CurrentPage.Provider>

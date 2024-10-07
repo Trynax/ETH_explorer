@@ -51,7 +51,7 @@ function getInputType(input){
     }else if (data.type === 'Wallet address'){
       const ethBalance = await alchemy.core.getBalance(data.value)
       const transactions = await getWalletTransactions(data.value)
-      const balance = ethers.formatEther(ethBalance._hex)
+      const balance = Number(ethers.formatEther(ethBalance._hex)).toFixed(4)
       return {
         balance,
         transactions
@@ -72,4 +72,4 @@ function getInputType(input){
     return data
   }
 
-  export {getBlockChainInfo,getTransactionReceipt}
+  export {getBlockChainInfo,getTransactionReceipt, getInputType}

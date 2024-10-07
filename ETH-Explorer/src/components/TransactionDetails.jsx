@@ -4,24 +4,24 @@ import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
 import { getETHData } from "../../utils/ethDataFetch"
 
-export default function TransactionDetails() {
+export default function TransactionDetails({txnhash}) {
 
-  const { hash } = useParams(); // Get the transaction hash from the URL
+  
   const [transactionReceipt, setTransactionReceipt] = useState({})
   const [ethPrice, setEthPrice] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
       const ethData = await getETHData()
-      const data = await getTransactionReceipt(hash) // Use the hash from the URL
+      const data = await getTransactionReceipt(txnhash) // Use the hash from the URL
       setTransactionReceipt(data)
       setEthPrice(ethData.ethPrice)
     }
 
-    if (hash) {
+    if (txnhash) {
       fetchData()
     }
-  }, [hash])
+  }, [txnhash])
 
   return (
     <main className="px-6 pt-3 flex flex-col gap-3">
@@ -29,7 +29,7 @@ export default function TransactionDetails() {
       <section className="px-20 py-10 bg-[#F7F8FA]">
         <h1 className="text-4xl font-bold mb-3">Transaction Details</h1>
         <div className="p-2 bg-white w-[70%] rounded-full mb-3">
-          <p><span className="font-bold mr-2">Txn hash:</span>{hash}</p>
+          <p><span className="font-bold mr-2">Txn hash:</span>{txnhash}</p>
         </div>
         <div className="bg-iconBg inline-block p-1 text-customColor font-bold rounded-md mb-6">Overview</div>
 

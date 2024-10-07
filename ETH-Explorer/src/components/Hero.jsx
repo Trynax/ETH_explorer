@@ -1,17 +1,17 @@
-import onchain from "../assets/on_chain.png"
-import { useState } from "react"
-import { useNavigate } from 'react-router-dom'
+import onchain from "../assets/on_chain.png";
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Hero() {
-
-  const [searchData, setSearchData] = useState("")
+  const [searchData, setSearchData] = useState("");
   const navigate = useNavigate();
 
   const handleSearch = () => {
     if (searchData) {
-      navigate(`/transaction/${searchData}`);
+      // Navigate to the /details route with the search input as a parameter
+      navigate(`/details/${searchData}`);
     }
-  }
+  };
 
   return (
     <section className="bg-black relative h-[500px]">

@@ -21,5 +21,4 @@ async function  getWalletTransactionsCount(wallet) {
 
 }
 
-
 export{getWalletTransactionsCount}
